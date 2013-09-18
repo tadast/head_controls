@@ -32,12 +32,13 @@ TrackControll = (function() {
     return this.article.css('font-size', "" + new_size + "px");
   };
   TrackControll.prototype.moved = function() {
-    var newest, oldest, zoomDelta;
+    var avgAngle, newest, oldest, zoomDelta;
     newest = this.log.newest();
     oldest = this.log.oldest();
     zoomDelta = oldest.width - newest.width;
     this.zoom(zoomDelta);
-    return this.article.css('transform', "rotate(" + (-newest.angle + Math.PI / 2) + "rad)");
+    avgAngle = (oldest.angle + newest.angle) / 2.0;
+    return this.article.css('transform', "rotate(" + (-avgAngle + Math.PI / 2) + "rad)");
   };
   return TrackControll;
 })();

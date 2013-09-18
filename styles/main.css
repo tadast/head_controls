@@ -8,4 +8,8 @@ article{
   line-height: 1.42em;
   width: 40%;
   margin: auto;
+  /*-webkit-transition: -webkit-transform 0.05s linear;
+  -moz-transition: -moz-transform 0.05s linear;
+  -o-transition: -o-transform 0.05s linear;
+  transition: transform 0.05s linear;*/
 }

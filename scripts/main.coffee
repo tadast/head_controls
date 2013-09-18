@@ -26,10 +26,12 @@ class TrackControll
   moved: ->
     newest = @log.newest()
     oldest = @log.oldest()
+
     zoomDelta = oldest.width - newest.width
     @zoom(zoomDelta)
 
-    @article.css('transform', "rotate(#{-newest.angle + Math.PI/2}rad)");
+    avgAngle = (oldest.angle + newest.angle)/2.0
+    @article.css('transform', "rotate(#{-avgAngle + Math.PI/2}rad)");
 
 
 
