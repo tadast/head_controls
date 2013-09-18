@@ -14,9 +14,7 @@ class TrackControll
     @article = $("article")
     $(document).on "facetrackingEvent", (e) =>
       @log.register(e)
-
-    $(document).on "zoomEvent", (e, zoom) =>
-      @zoom(zoom)
+      @moved()
 
 
   zoom: (diff) ->
@@ -24,6 +22,15 @@ class TrackControll
     new_size = current_size + (diff / 10)
     new_size = Math.max(5, new_size)
     @article.css('font-size', "#{new_size}px");
+
+  moved: ->
+    newest = @log.newest()
+    oldest = @log.oldest()
+    zoomDelta = oldest.width - newest.width
+    @zoom(zoomDelta)
+
+    @article.css('transform', "rotate(#{-newest.angle + Math.PI/2}rad)");
+
 
 
 class TrackLog
@@ -34,25 +41,24 @@ class TrackLog
     $(document).on "click", =>
       @logging_on = !@logging_on
 
-  register: (event) ->
-    @push(event)
-    zoomDelta = @last().originalEvent.width - event.originalEvent.width
-    if zoomDelta != 0
-      $(document).trigger "zoomEvent", zoomDelta
-
   pure: (event) ->
     width: event.originalEvent.width
     height: event.originalEvent.height
     x: event.originalEvent.x
     y: event.originalEvent.y
+    angle: event.originalEvent.angle
 
-  push: (event) ->
+  register: (event) ->
+    event = @pure(event)
     @log.push(event)
     if @log.length > @size
       @log.shift()
     if @logging_on
-      console.log(@pure(event))
+      console.log event.angle
 
-  last: ->
+  oldest: ->
     @log[0]
+
+  newest: ->
+    @log[@log.length - 1]
 
