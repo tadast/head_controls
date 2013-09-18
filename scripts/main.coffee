@@ -1,7 +1,8 @@
 $ ->
   videoInput = document.getElementById('inputVideo')
   canvasInput = document.getElementById('inputCanvas')
-  htracker = new headtrackr.Tracker()
+  debugCanvas = document.getElementById('debugCanvas')
+  htracker = new headtrackr.Tracker(ui: false, calcAngles: true, debug: debugCanvas)
 
   htracker.init(videoInput, canvasInput)
   new TrackControll(htracker)
